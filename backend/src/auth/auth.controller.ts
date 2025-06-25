@@ -8,6 +8,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
+import { SignupDto } from './dto/signup.dto';
 import { AuthService } from './auth.service';
 import { Response, Request } from 'express';
 import { JwtService } from '@nestjs/jwt';
@@ -21,9 +22,9 @@ export class AuthController {
     @Body() body: { email: string; password: string },
     @Res({ passthrough: true }) res: Response,
   ) {
-    const user = await this.authService.signup(body.email, body.password);
-    const token = this.jwt.sign({ id: user.id });
-    res.cookie('jwt', token, { httpOnly: true });
+    const user = await this.authService.signup(body); 
+   const token = this.jwt.sign({ id: user.user.id });
+    res.cookie('Authentication', token, { httpOnly: true });
     return user;
   }
 
@@ -34,7 +35,7 @@ export class AuthController {
   ) {
     const { token } = await this.authService.signin(body.email, body.password);
     res.cookie('jwt', token, { httpOnly: true });
-    return { message: 'Signed in' };
+    return { message: 'Signed in',token  };
   }
 
   @Post('logout')

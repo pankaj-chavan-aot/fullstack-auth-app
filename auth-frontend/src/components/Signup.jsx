@@ -1,52 +1,28 @@
-// import { useState } from 'react';
-// import axios from 'axios';
 
-// export default function Signup() {
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-
-//   const handleSignup = async (e) => {
-//     e.preventDefault();
-//     try {
-//       await axios.post('http://localhost:3000/auth/signup', {
-//         email,
-//         password
-//       }, { withCredentials: true });
-//       alert('✅ Signup Success');
-//     } catch (error) {
-//       alert('❌ Signup Failed');
-//     }
-//   };
-
-//   return (
-//     <form onSubmit={handleSignup}>
-//       <h2>Signup</h2>
-//       <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" />
-//       <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
-//       <button type="submit">Signup</button>
-//     </form>
-//   );
-// }
 import { useState } from "react";
 import axios from "axios";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleSignup = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post(
-        "http://localhost:3000/auth/signup",
-        { email, password },
-        { withCredentials: true }
-      );
-      alert("✅ Signup successful");
-    } catch (err) {
-      alert("❌ Signup failed");
-    }
-  };
+const handleSignup = async (e) => {
+  e.preventDefault();
+  try {
+    await axios.post(
+      "http://localhost:3000/auth/signup",
+      {
+        email,
+        password,
+        roleId: 3, // 👈 default 'user'
+      },
+      { withCredentials: true }
+    );
+    alert("✅ Signup successful");
+  } catch (err) {
+    console.error(err.response?.data); // 👉 backend error details
+    alert("❌ Signup failed: " + err.response?.data?.message);
+  }
+};
 
   return (
     <div className="w-full max-w-md mx-auto mt-10 bg-white shadow-2xl rounded-2xl p-8 border border-gray-200">
