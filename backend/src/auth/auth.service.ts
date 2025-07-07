@@ -35,6 +35,10 @@ export class AuthService {
   console.log('DB Password:', user?.password);
   console.log('Provided Password:', password);
     if (!user) throw new UnauthorizedException('Invalid credentials');
+    console.log('User:', user);
+    console.log('Password hash in DB:', user?.password);
+    console.log('Password entered:', password);
+
 
     const match = await bcrypt.compare(password, user.password);
       console.log('Password match:', match);
@@ -45,6 +49,7 @@ export class AuthService {
       email: user.email,
       role: user.role.name,
     });
+      console.log('Generated JWT token:', token);
 
     return {
         message: 'Signed in',

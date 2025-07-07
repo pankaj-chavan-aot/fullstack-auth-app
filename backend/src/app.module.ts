@@ -5,11 +5,13 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { AdminModule } from './admin/admin.module';
 import { SuperadminModule } from './superadmin/superadmin.module';
-
+import { UploadModule } from './upload/upload.module';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    
 
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -21,11 +23,15 @@ import { SuperadminModule } from './superadmin/superadmin.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
-
+    UploadModule,
     AuthModule,
     UsersModule,
     AdminModule,
     SuperadminModule, // Add if you're using it
+    
+  ],
+   providers: [
+    JwtAuthGuard,  
   ],
 })
 export class AppModule {}
